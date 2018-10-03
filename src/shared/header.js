@@ -1,7 +1,12 @@
 import React from 'react';
+import { Fetch } from "@traveloka/fragment/lib/Fetch";
+import userFetcher from "./userFetcher";
 
-export default () => (
+export default ({title}) => (
   <header>
-    Header
+    <h1>{title}</h1> 
+    <Fetch fetcher={userFetcher} id={'abi'}>
+      { ({ data }) => data || null }
+    </Fetch>
   </header>
 )
