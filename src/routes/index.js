@@ -1,14 +1,30 @@
+import React from "react";
+const Loading = () => <div>Loading</div>;
+
 export default [
   {
-    path: '/',
+    path: "/",
     exact: true,
-    loader: () => import('../home/Home.page'),
-    fragments: () => import('fragment-loader!../home/Home.page'),
+    loader: () => import(/* webpackChunkName: "home" */ "../home/HomePage"),
+    fragments: () =>
+      import(/* webpackChunkName: "home-fragment" */ "fragment-loader!../home/HomePage")
   },
   {
-    path: '/about',
+    path: "/about",
     exact: true,
-    loader: () => import('../about/About.page'),
-    fragments: () => import('fragment-loader!../about/About.page')
+    loader: () => import(/* webpackChunkName: "about" */ "../about/AboutPage"),
+    fragments: () =>
+      import(/* webpackChunkName: "about-fragment" */ "fragment-loader!../about/AboutPage")
   },
-];
+  {
+    path: "/post/:id",
+    exact: true,
+    loader: () =>
+      import(/* webpackChunkName: "post" */ "../post/SinglePostPage"),
+    fragments: () =>
+      import(/* webpackChunkName: "post-fragment" */ "fragment-loader!../post/SinglePostPage")
+  }
+].map(route => {
+  route.loading = Loading;
+  return route;
+});

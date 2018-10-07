@@ -1,5 +1,5 @@
 import express from 'express';
-import { render } from "@traveloka/fragment";
+import { render } from "@traveloka/fragment/server";
 import routes from "./routes";
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
@@ -23,13 +23,15 @@ server
     });
   });
 
-function template({ content, data }) {
+function template({ content, data, helmet }) {
   return `<!doctype html>
   <html lang="">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="utf-8" />
-    <title>Welcome to Razzle</title>
+    ${helmet.title.toString()}
+    ${helmet.meta.toString()}
+    ${helmet.link.toString()}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     ${ assets.client.css
       ? `<link rel="stylesheet" href="${assets.client.css}">`
@@ -38,6 +40,8 @@ function template({ content, data }) {
   </head>
   <body>
     <div id="root">${content}</div>
+    <hr />
+    <footer>This footer is so static</footer>
     <script>var __FRAGMENT__=${JSON.stringify(data)}</script>
     ${ process.env.NODE_ENV === 'production'
       ? `<script src="${assets.client.js}" defer></script>`
@@ -47,4 +51,5 @@ function template({ content, data }) {
 </html>`
 }
 
+// b
 export default server;
